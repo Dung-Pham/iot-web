@@ -3,10 +3,11 @@ import bodyParser from 'body-parser'
 import viewEngine from './config/viewEngine'
 import initWebRouter from './route/web'
 import connectDB from './config/connectDB'
-import { userClients, connectUser } from './config/connectBroker'
+import { userClients, connectUser, publishToTopic } from './config/connectBroker'
 import http from 'http'  // Thêm http module
 import socketIo from 'socket.io'  // Thêm socket.io module
 require('dotenv').config()
+
 
 let cors = require('cors')
 let app = express()
@@ -68,6 +69,7 @@ io.on('connection', (socket) => {
     // Lắng nghe sự kiện từ client
     socket.on('message', (msg) => {
         console.log('Received message:', msg)
+        publishToTopic(deviceId, msg.topic, msg.data);
 
         // Gửi lại thông điệp cho client (echo message)
         socket.emit('message', `Echo: ${msg}`)

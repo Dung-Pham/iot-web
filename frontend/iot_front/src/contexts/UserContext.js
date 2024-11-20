@@ -9,6 +9,10 @@ const UserProvider = ({ children }) => {
     const [air, setAir] = useState(null);
     const [light, setLight] = useState(null);
     const [deviceId, setDeviceId] = useState(null);
+    const [Switch, setSwitch] = useState(null);
+    const [led, setLed] = useState(null);
+    const [toggle, setToggle] = useState(null);
+    const [loading, setLoading] = useState(null);
 
 
     return (
@@ -16,7 +20,11 @@ const UserProvider = ({ children }) => {
             user, setUser,
             air, setAir,
             light, setLight,
-            deviceId, setDeviceId
+            deviceId, setDeviceId,
+            Switch, setSwitch,
+            led, setLed,
+            toggle, setToggle,
+            loading, setLoading
             }}>
             {children}  {/* Wrap the children so they have access to the context */}
         </UserContext.Provider>

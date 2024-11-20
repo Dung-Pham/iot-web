@@ -28,7 +28,7 @@ export const connectUser = (deviceId) => {
         const time = now.toLocaleTimeString();
         const date = now.toLocaleDateString();
 
-        type = topic == `${deviceId}/data/air` ? "air" : topic == `${deviceId}/data/light` ? "light" : "rain"
+        type = topic.split('/').pop();
 
         mqttData = {
             a: message.toString(),
@@ -42,7 +42,7 @@ export const connectUser = (deviceId) => {
         }
 
         // lưu data vào db
-        handleUpdateDate(data)
+        if(type !== "switch" && type !== "led" && type !== "toggle")handleUpdateDate(data)
         // truyền data tới client
         sendDataToDevice(deviceId, data);
         console.log(data);

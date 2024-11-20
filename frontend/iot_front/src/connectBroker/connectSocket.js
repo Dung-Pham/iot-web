@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-const useSocket = ({ setAir, setLight, deviceId }) => {
+const useSocket = ({ setAir, setLight, setSwitch, setLed, setToggle,deviceId }) => {
     const socketRef = useRef(null);
 
     useEffect(() => {
@@ -26,6 +26,9 @@ const useSocket = ({ setAir, setLight, deviceId }) => {
             console.log('Data received from server:', data);
             if (data.type === 'air') setAir(data.mqttData.a);
             else if (data.type === 'light') setLight(data.mqttData.a);
+            else if (data.type === 'switch') setSwitch(data.mqttData.a);
+            else if(data.type === 'led') setLed(data.mqttData.a);
+            else if(data.type === 'toggle') setToggle(data.mqttData.a);
             else console.log('Không nhận được data');
         });
 
@@ -42,7 +45,18 @@ const useSocket = ({ setAir, setLight, deviceId }) => {
         };
     }, [deviceId]); // Re-run effect khi deviceId thay đổi
 
-    return {}; // Không cần trả về gì vì không có tính năng gửi dữ liệu
+    // Hàm để gửi dữ liệu qua socket
+    const send = (topic, data) => {
+        if (socketRef.current) {
+            console.log(`Sending message with data:`, data);
+            socketRef.current.emit('message', {topic, data});
+        } else {
+            console.error('Socket is not initialized');
+        }
+    };
+
+    // Trả về hàm send
+    return { send }; 
 };
 
 export default useSocket;

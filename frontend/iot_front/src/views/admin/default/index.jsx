@@ -36,7 +36,10 @@ export default function UserReports() {
     user,
     air, setAir,
     light, setLight,
-    deviceId, setDeviceId
+    Switch, setSwitch,
+    led, setLed,
+    toggle, setToggle,
+    deviceId, setDeviceId,
   } = UserState();
   //  const [air, setAirQuality] = React.useState(null);
   // const [light, setLightnessValue] = React.useState(null);
@@ -44,7 +47,7 @@ export default function UserReports() {
   // React.useEffect(() => {
   //   connectUser("dev001", setAir, setLight);
   // }, []);
-  useSocket({ setAir, setLight, deviceId });
+  useSocket({ setAir, setLight, setSwitch, setLed, setToggle,deviceId});
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
